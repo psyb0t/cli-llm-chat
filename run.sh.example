@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+export MODEL_NAME="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+export ASSISTANT_NAME="AI"
+export SYSTEM_MESSAGE="You are a helpful AI assistant"
+
+source venv/bin/activate
+python chat.py
+deactivate
