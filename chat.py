@@ -13,9 +13,9 @@ DEVICE = "cuda"
 MODEL_NAME = os.getenv(
     "MODEL_NAME", "TheBloke/SOLAR-10.7B-Instruct-v1.0-uncensored-GPTQ"
 )
+
 ASSISTANT_NAME = os.getenv("ASSISTANT_NAME", "AI")
 SYSTEM_MESSAGE = os.getenv("SYSTEM_MESSAGE", "You are a helpful AI assistant")
-# parse float
 
 TEMPERATURE = float(os.getenv("TEMPERATURE", 0.7))
 MAX_NEW_TOKENS = int(os.getenv("MAX_NEW_TOKENS", 256))
