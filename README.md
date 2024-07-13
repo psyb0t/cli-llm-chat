@@ -26,6 +26,40 @@ Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't y
    ```
 4. Sacrifice a rubber duck to the coding gods (optional, but recommended)
 
+## 🌈 Environment Variables (Because Who Doesn't Love a Good Tweak?)
+
+Before you unleash this beast, you might want to customize its behavior. Set these environment variables to mold the AI to your twisted desires:
+
+- `MODEL_NAME`: Choose your poison (default: "mistralai/Mistral-7B-v0.3")
+- `MODEL_LOAD_IN_4BIT`: For when you want to squeeze that model into a toaster (default: false)
+- `MODEL_LOAD_IN_8BIT`: When 4 bits just isn't enough (default: false)
+- `TOKENIZER_NAME`: In case you want a different tokenizer (defaults to MODEL_NAME if not set)
+- `CHAT_TEMPLATE`: For the love of all that's holy, choose wisely. (optional)
+- `LORA_WEIGHTS`: Spice it up with some LoRA, if you're feeling fancy
+- `ASSISTANT_NAME`: Name your digital Frankenstein (default: "AI")
+- `SYSTEM_MESSAGE`: Set the AI's mood. Make it think it's a pirate, a poet, or a paranoid android.
+- `TEMPERATURE`: How batshit crazy do you want the responses? (default: 0.7)
+- `MAX_NEW_TOKENS`: Control the verbal diarrhea (default: 256)
+- `TOP_P`: Fiddle with randomness, you mad scientist (default: 0.95)
+- `TOP_K`: More sampling shenanigans (default: 40)
+- `REPETITION_PENALTY`: Because even AI shouldn't stutter... or should it? (default: 1.1)
+- `HISTORY_LENGTH`: How many conversations until AI amnesia kicks in (default: 10)
+- `DEBUG`: Want to see the chaos under the hood? (default: false)
+- `DEVICE`: CUDA or CPU? Choose your weapon.
+
+Example:
+
+```bash
+export MODEL_NAME="NousResearch/Nous-Hermes-Llama2-13b"
+export TEMPERATURE=0.9
+export MAX_NEW_TOKENS=512
+export DEBUG=true
+```
+
+Set these before running the script, or prepare for delightful chaos. Your choice!
+
+Now, onto the fun part...
+
 ## 🚀 Usage (or How to Lose Your Sanity in 3... 2... 1...)
 
 1. Fire up this beast:

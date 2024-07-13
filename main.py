@@ -15,7 +15,7 @@ from common import CHAT_TEMPLATES
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
 # Constants for default values
-DEFAULT_MODEL_NAME = "TheBloke/SOLAR-10.7B-Instruct-v1.0-uncensored-GPTQ"
+DEFAULT_MODEL_NAME = "mistralai/Mistral-7B-v0.3"
 DEFAULT_ASSISTANT_NAME = "AI"
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_MAX_NEW_TOKENS = 256
@@ -124,6 +124,13 @@ class Chatbot:
         if self.chat_template:
             print(f"Setting chat template to: {self.chat_template}")
             self.tokenizer.chat_template = CHAT_TEMPLATES[self.chat_template]
+
+        if not self.tokenizer.chat_template:
+            if self.tokenizer.default_chat_template:
+                print(
+                    f"Setting chat template to default one: {self.tokenizer.default_chat_template}"
+                )
+                self.tokenizer.chat_template = self.tokenizer.default_chat_template
 
         if self.lora_weights:
             print(f"Loading LoRA weights from: {self.lora_weights}")
