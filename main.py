@@ -15,7 +15,7 @@ from common import CHAT_TEMPLATES
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
 # Constants for default values
-DEFAULT_MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
+DEFAULT_MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.3"
 DEFAULT_ASSISTANT_NAME = "AI"
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_MAX_NEW_TOKENS = 256
