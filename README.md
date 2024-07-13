@@ -30,7 +30,8 @@ Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't y
 
 Before you unleash this beast, you might want to customize its behavior. Set these environment variables to mold the AI to your twisted desires:
 
-- `MODEL_NAME`: Choose your poison (default: "mistralai/Mistral-7B-v0.3")
+- `HF_TOKEN`: Get an API key at https://huggingface.co/settings/tokens
+- `MODEL_NAME`: Choose your poison (default: "mistralai/Mistral-7B-Instruct-v0.2")
 - `MODEL_LOAD_IN_4BIT`: For when you want to squeeze that model into a toaster (default: false)
 - `MODEL_LOAD_IN_8BIT`: When 4 bits just isn't enough (default: false)
 - `TOKENIZER_NAME`: In case you want a different tokenizer (defaults to MODEL_NAME if not set)

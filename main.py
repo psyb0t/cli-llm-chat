@@ -15,7 +15,7 @@ from common import CHAT_TEMPLATES
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
 # Constants for default values
-DEFAULT_MODEL_NAME = "mistralai/Mistral-7B-v0.3"
+DEFAULT_MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
 DEFAULT_ASSISTANT_NAME = "AI"
 DEFAULT_TEMPERATURE = 0.7
 DEFAULT_MAX_NEW_TOKENS = 256
@@ -41,10 +41,13 @@ ENV_VAR_MODEL_LOAD_IN_4BIT = "MODEL_LOAD_IN_4BIT"
 ENV_VAR_MODEL_LOAD_IN_8BIT = "MODEL_LOAD_IN_8BIT"
 ENV_VAR_TOKENIZER_NAME = "TOKENIZER_NAME"
 ENV_VAR_LORA_WEIGHTS = "LORA_WEIGHTS"
+ENV_VAR_HF_TOKEN = "HF_TOKEN"
 
 
 class Chatbot:
     def __init__(self) -> None:
+        self.huggingface_token: str = os.getenv(ENV_VAR_HF_TOKEN, "")
+
         model_name: str = os.getenv(ENV_VAR_MODEL_NAME, "")
         self.model_name: str = model_name if model_name else DEFAULT_MODEL_NAME
 
@@ -114,11 +117,14 @@ class Chatbot:
             self.model_name,
             device_map=self.device,
             quantization_config=quantization_config,
+            token=self.huggingface_token,
         )
 
         print(f"Loading tokenizer: {self.tokenizer_name}")
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
-            self.tokenizer_name, use_fast=True
+            self.tokenizer_name,
+            use_fast=True,
+            token=self.huggingface_token,
         )
 
         if self.chat_template:
@@ -134,7 +140,11 @@ class Chatbot:
 
         if self.lora_weights:
             print(f"Loading LoRA weights from: {self.lora_weights}")
-            self.model = PeftModel.from_pretrained(self.model, self.lora_weights)
+            self.model = PeftModel.from_pretrained(
+                self.model,
+                self.lora_weights,
+                token=self.huggingface_token,
+            )
             print(f"Loaded LoRA weights from {self.lora_weights}")
 
         print(f"Verifying vocab sizes for model and tokenizer")
