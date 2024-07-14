@@ -73,7 +73,7 @@ Set these before running the script, or prepare for delightful chaos. Your choic
 
 1. Fire up this beast:
    ```
-   python main.py
+   python chat.py
    ```
 2. Type your deepest, darkest thoughts. Or just keysmash. The AI doesn't judge (much).
 3. Watch in horror as the AI spits back responses that'll make you question reality.
