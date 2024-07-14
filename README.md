@@ -9,12 +9,13 @@ Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't y
 - **Customizable AF**: Tweak it, break it, make it scream. It's your dystopian playground!
 - **System Message Mayhem**: Convince the AI it's a drunk pirate or an alien stripper. Sky's the limit, baby!
 - **History Management**: Because even digital chaos needs a paper trail.
+- **Telegram Integration**: Now you can unleash this madness on Telegram! Because why limit the chaos to your terminal?
 
 ## 🛠 Installation (Don't Sue Us If Your Computer Explodes)
 
 1. Clone this bad boy:
    ```
-   git clone https://github.com/your-crazy-username/cli-llm-chat.git
+   git clone https://github.com/psyb0t/cli-llm-chat.git
    ```
 2. Enter the madhouse:
    ```
@@ -48,6 +49,11 @@ Before you unleash this beast, you might want to customize its behavior. Set the
 - `DEBUG`: Want to see the chaos under the hood? (default: false)
 - `DEVICE`: CUDA or CPU? Choose your weapon.
 
+For Telegram support, you'll need these additional environment variables:
+
+- `TELEGRAM_BOT_TOKEN`: Your Telegram bot token (get it from @BotFather)
+- `TELEGRAM_BOT_USER_DATA_FILE`: Path to store user data (e.g., "/path/to/user_data.json")
+
 Example:
 
 ```bash
@@ -55,13 +61,15 @@ export MODEL_NAME="NousResearch/Nous-Hermes-Llama2-13b"
 export TEMPERATURE=0.9
 export MAX_NEW_TOKENS=512
 export DEBUG=true
+export TELEGRAM_BOT_TOKEN="your_telegram_bot_token_here"
+export TELEGRAM_BOT_USER_DATA_FILE="/path/to/user_data.json"
 ```
 
 Set these before running the script, or prepare for delightful chaos. Your choice!
 
-Now, onto the fun part...
-
 ## 🚀 Usage (or How to Lose Your Sanity in 3... 2... 1...)
+
+### CLI Version
 
 1. Fire up this beast:
    ```
@@ -71,7 +79,17 @@ Now, onto the fun part...
 3. Watch in horror as the AI spits back responses that'll make you question reality.
 4. Rinse and repeat until you've either achieved digital nirvana or your brain melts.
 
-## 🎛 Commands (For When You Want to Really F*ck Sh*t Up)
+### Telegram Version
+
+1. Set up your Telegram bot with @BotFather and get your bot token.
+2. Set the required environment variables (see above).
+3. Unleash the chaos:
+   ```
+   python telegram_chatbot.py
+   ```
+4. Find your bot on Telegram and start chatting. Watch as it corrupts innocent Telegram users with its digital madness.
+
+## 🎛 Commands (For When You Want to Really F*ck Sh*t Up) -
 
 - `/temp <value>`: Make the AI's brain hotter than a supernova
 - `/max_tokens <value>`: Unleash a word tsunami
@@ -83,9 +101,11 @@ Now, onto the fun part...
 - `/clear`: Amnesia button. Poof! What conversation?
 - `/history`: Relive the madness. Why? Because you hate yourself, that's why.
 
+Note: These commands work in the CLI version. The Telegram version might make you question your life choices in other ways.
+
 ## ⚠️ Disclaimer (Read This or Don't. We're Not Your Mom.)
 
-This software is provided as-is, with all its bugs, features, and tendency to generate responses that might make you question your life choices. Use at your own risk. Side effects may include uncontrollable laughter, existential crises, and the sudden urge to talk to your houseplants.
+This software is provided as-is, with all its bugs, features, and tendency to generate responses that might make you question your life choices. Use at your own risk. Side effects may include uncontrollable laughter, existential crises, and the sudden urge to talk to your houseplants. Now with added risk of spamming your Telegram contacts with AI-generated nonsense!
 
 ## 🤝 Contributing (or How to Join the Asylum)
 
@@ -93,6 +113,6 @@ Found a bug? Great! Keep it as a pet. Want to add a feature? Fantastic! The more
 
 ## 📜 License
 
-Licensed under the "Do Whatever the Fuck You Want" Public License. Seriously, I don't care. Go wild. Just don't blame me when the AI decides to take over your kitchen appliances.
+Licensed under the "Do Whatever the Fuck You Want" Public License. Seriously, I don't care. Go wild. Just don't blame me when the AI decides to take over your kitchen appliances or your Telegram account.
 
 Now go forth and chat your brains out, you magnificent bastards! 🎉💥🤖
