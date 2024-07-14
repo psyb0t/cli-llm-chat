@@ -1,4 +1,4 @@
 __pycache__
 venv
-.idea
 run.sh
+run_telegram_chatbot.sh
