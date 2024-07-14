@@ -26,11 +26,17 @@ logger.setLevel(logging.DEBUG)
 # Constants for environment variable names
 ENV_VAR_TELEGRAM_BOT_TOKEN: str = "TELEGRAM_BOT_TOKEN"
 ENV_VAR_TELEGRAM_BOT_USER_DATA_FILE: str = "TELEGRAM_BOT_USER_DATA_FILE"
+ENV_VAR_TELEGRAM_BOT_SUPERUSER_CHAT_ID: str = "TELEGRAM_BOT_SUPERUSER_CHAT_ID"
 
 # File to store user data
 USER_DATA_FILE: str = os.getenv(ENV_VAR_TELEGRAM_BOT_USER_DATA_FILE, "")
 if not USER_DATA_FILE:
     raise ValueError("TELEGRAM_BOT_USER_DATA_FILE environment variable not set")
+
+# Superuser chat ID
+SUPERUSER_CHAT_ID: str = os.getenv(ENV_VAR_TELEGRAM_BOT_SUPERUSER_CHAT_ID, "")
+if not SUPERUSER_CHAT_ID:
+    logger.warning("TELEGRAM_BOT_SUPERUSER_CHAT_ID environment variable not set")
 
 # Dictionary to store chat_id: username pairs
 user_data: Dict[str, str] = {}
@@ -63,12 +69,11 @@ def save_user_data() -> None:
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id: str = str(update.effective_chat.id)
     if chat_id not in user_data:
-        await update.message.reply_text("eyo! CUM te cheama?")
+        await update.message.reply_text("Hello! What's your name?")
         logger.info(f"New user with chat_id {chat_id} started the bot")
-
         return
 
-    await update.message.reply_text(f"cetzma plashipula, {user_data[chat_id]}!")
+    await update.message.reply_text(f"Hello again, {user_data[chat_id]}!")
     logger.info(
         f"Existing user {user_data[chat_id]} (chat_id: {chat_id}) started the bot"
     )
@@ -83,7 +88,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if chat_id not in user_data:
         user_data[chat_id] = update.message.text
         save_user_data()
-        await update.message.reply_text(f"tzumesque! {update.message.text}! 🐟🐟🐟")
+        await update.message.reply_text(f"Thanks! {update.message.text}!")
         logger.info(f"New user registered: {update.message.text} (chat_id: {chat_id})")
         return
 
@@ -111,6 +116,97 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     )
 
 
+async def handle_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    chat_id: str = str(update.effective_chat.id)
+    command: str = update.message.text.split()[0][1:]
+    args: str = (
+        update.message.text.split(None, 1)[1]
+        if len(update.message.text.split()) > 1
+        else ""
+    )
+
+    if chat_id == SUPERUSER_CHAT_ID:
+        if command in [
+            "temp",
+            "temperature",
+            "max_tokens",
+            "top_p",
+            "top_k",
+            "repetition_penalty",
+            "debug",
+        ]:
+            param = "temperature" if command == "temp" else command
+            param = "max_new_tokens" if param == "max_tokens" else param
+            chatbot.set_parameter(param, args)
+            await update.message.reply_text(
+                f"{param.capitalize()} set to: {getattr(chatbot, param)}"
+            )
+            return
+        elif command == "system":
+            chatbot.set_parameter("system_message", args)
+            await update.message.reply_text(
+                f"System message set to: {chatbot.system_message}"
+            )
+            return
+        elif command == "users":
+            await send_user_list(update, context)
+            return
+
+    if command == "clear":
+        chatbot.clear_history()
+        await update.message.reply_text("Chat history cleared")
+        return
+    elif command == "history":
+        history = chatbot.history.get(chat_id, [])
+        history_text = "\n".join(
+            [f"{entry['role'].capitalize()}: {entry['content']}" for entry in history]
+        )
+        await update.message.reply_text(f"Chat history:\n{history_text}")
+        return
+    elif command in ["help", "?"]:
+        await send_help_message(
+            update, context, is_superuser=(chat_id == SUPERUSER_CHAT_ID)
+        )
+        return
+    else:
+        await update.message.reply_text(f"Unknown command: {command}")
+        return
+
+
+async def send_help_message(
+    update: Update, context: ContextTypes.DEFAULT_TYPE, is_superuser: bool
+) -> None:
+    help_message = "Available commands:\n"
+    help_message += "/clear: Clear chat history\n"
+    help_message += "/history: Show chat history\n"
+    help_message += "/help or /?: Show this help message\n"
+
+    if is_superuser:
+        help_message += "\nSuperuser commands:\n"
+        help_message += "/temp <value>: Set temperature\n"
+        help_message += "/max_tokens <value>: Set max new tokens\n"
+        help_message += "/top_p <value>: Set top_p\n"
+        help_message += "/top_k <value>: Set top_k\n"
+        help_message += "/repetition_penalty <value>: Set repetition penalty\n"
+        help_message += "/system <message>: Set system message\n"
+        help_message += "/debug true|false: Enable or disable debug mode\n"
+        help_message += "/users: Show all users (chat ID and username)\n"
+
+    await update.message.reply_text(help_message)
+
+
+async def send_user_list(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if str(update.effective_chat.id) != SUPERUSER_CHAT_ID:
+        await update.message.reply_text("You are not authorized to use this command.")
+        return
+
+    user_list = "User List:\n"
+    for chat_id, username in user_data.items():
+        user_list += f"Chat ID: {chat_id}, Username: {username}\n"
+
+    await update.message.reply_text(user_list)
+
+
 def main() -> None:
     logger.info("Starting the bot")
 
@@ -134,6 +230,7 @@ def main() -> None:
     application.add_handler(
         MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message)
     )
+    application.add_handler(MessageHandler(filters.COMMAND, handle_command))
     logger.info("Handlers added to the application")
 
     # Run the bot until the user presses Ctrl-C

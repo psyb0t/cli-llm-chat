@@ -10,6 +10,7 @@ Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't y
 - **System Message Mayhem**: Convince the AI it's a drunk pirate or an alien stripper. Sky's the limit, baby!
 - **History Management**: Because even digital chaos needs a paper trail.
 - **Telegram Integration**: Now you can unleash this madness on Telegram! Because why limit the chaos to your terminal?
+- **Command Support**: Bend the AI to your will with a slew of commands, both in CLI and Telegram!
 
 ## 🛠 Installation (Don't Sue Us If Your Computer Explodes)
 
@@ -53,6 +54,7 @@ For Telegram support, you'll need these additional environment variables:
 
 - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token (get it from @BotFather)
 - `TELEGRAM_BOT_USER_DATA_FILE`: Path to store user data (e.g., "/path/to/user_data.json")
+- `TELEGRAM_BOT_SUPERUSER_CHAT_ID`: Chat ID of the superuser (optional, but recommended for ultimate power)
 
 Example:
 
@@ -63,6 +65,7 @@ export MAX_NEW_TOKENS=512
 export DEBUG=true
 export TELEGRAM_BOT_TOKEN="your_telegram_bot_token_here"
 export TELEGRAM_BOT_USER_DATA_FILE="/path/to/user_data.json"
+export TELEGRAM_BOT_SUPERUSER_CHAT_ID="your_chat_id_here"
 ```
 
 Set these before running the script, or prepare for delightful chaos. Your choice!
@@ -91,6 +94,8 @@ Set these before running the script, or prepare for delightful chaos. Your choic
 
 ## 🎛 Commands (For When You Want to Really F*ck Sh*t Up) -
 
+### CLI Commands
+
 - `/temp <value>`: Make the AI's brain hotter than a supernova
 - `/max_tokens <value>`: Unleash a word tsunami
 - `/top_p <value>`: Fiddle with probability (because who needs certainty?)
@@ -101,7 +106,27 @@ Set these before running the script, or prepare for delightful chaos. Your choic
 - `/clear`: Amnesia button. Poof! What conversation?
 - `/history`: Relive the madness. Why? Because you hate yourself, that's why.
 
-Note: These commands work in the CLI version. The Telegram version might make you question your life choices in other ways.
+### Telegram Commands
+
+#### Regular User Commands
+
+- `/start`: Kick off the madness or get a friendly reminder of your impending doom
+- `/clear`: Wipe the slate clean. New chat, who dis?
+- `/history`: Revisit your descent into AI-induced insanity
+- `/help` or `/?`: When you're lost in the digital abyss and need a lifeline
+
+#### Superuser Commands (for the chosen ones)
+
+- `/temp <value>`: Adjust the AI's fever dream intensity
+- `/max_tokens <value>`: Control the verbal diarrhea
+- `/top_p <value>`: Fine-tune the chaos
+- `/top_k <value>`: More sampling shenanigans
+- `/repetition_penalty <value>`: Make the AI a broken record (or not)
+- `/system <message>`: Reprogram reality
+- `/debug true|false`: Peek under the hood (if you dare)
+- `/users`: Spy on who's been abusing your creation
+
+Note: Superuser commands are only available if you've set the `TELEGRAM_BOT_SUPERUSER_CHAT_ID` environment variable.
 
 ## ⚠️ Disclaimer (Read This or Don't. We're Not Your Mom.)
 
