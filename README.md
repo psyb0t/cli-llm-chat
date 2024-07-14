@@ -1,6 +1,6 @@
 # 🖕 CLI-LLM-CHAT: Because F\*ck Your GUI! 🖕
 
-Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't your grandma's chatbot - it's a CLI-powered, LLM-fueled monster that'll make your terminal feel like it just snorted a line of pure, uncut machine learning.
+Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't your grandma's chatbot – it's a CLI-powered, LLM-fueled beast! And guess what? It also supports Telegram integration right out of the box. Get ready to unleash the madness!
 
 ## 🚀 Features (or Whatever the Hell You Wanna Call 'Em)
 
