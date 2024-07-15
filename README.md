@@ -55,6 +55,7 @@ For Telegram support, you'll need these additional environment variables:
 - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token (get it from @BotFather)
 - `TELEGRAM_BOT_USER_DATA_FILE`: Path to store user data (e.g., "/path/to/user_data.json")
 - `TELEGRAM_BOT_SUPERUSER_CHAT_ID`: Chat ID of the superuser (optional, but recommended for ultimate power)
+- `TELEGRAM_BOT_SPLIT_RESPONSE_NEWLINES`: Whether to split responses by newlines and spam the suckers (default: false)
 
 Example:
 

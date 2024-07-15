@@ -27,6 +27,9 @@ logger.setLevel(logging.DEBUG)
 ENV_VAR_TELEGRAM_BOT_TOKEN: str = "TELEGRAM_BOT_TOKEN"
 ENV_VAR_TELEGRAM_BOT_USER_DATA_FILE: str = "TELEGRAM_BOT_USER_DATA_FILE"
 ENV_VAR_TELEGRAM_BOT_SUPERUSER_CHAT_ID: str = "TELEGRAM_BOT_SUPERUSER_CHAT_ID"
+ENV_VAR_TELEGRAM_BOT_SPLIT_RESPONSE_NEWLINES: str = (
+    "TELEGRAM_BOT_SPLIT_RESPONSE_NEWLINES"
+)
 
 # File to store user data
 USER_DATA_FILE: str = os.getenv(ENV_VAR_TELEGRAM_BOT_USER_DATA_FILE, "")
@@ -37,6 +40,11 @@ if not USER_DATA_FILE:
 SUPERUSER_CHAT_ID: str = os.getenv(ENV_VAR_TELEGRAM_BOT_SUPERUSER_CHAT_ID, "")
 if not SUPERUSER_CHAT_ID:
     logger.warning("TELEGRAM_BOT_SUPERUSER_CHAT_ID environment variable not set")
+
+# Split response newlines
+SPLIT_RESPONSE_NEWLINES: bool = (
+    os.getenv(ENV_VAR_TELEGRAM_BOT_SPLIT_RESPONSE_NEWLINES, "false").lower() == "true"
+)
 
 # Dictionary to store chat_id: username pairs
 user_data: Dict[str, str] = {}
@@ -100,16 +108,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         print_response=False,
     )
 
-    lines = response.split("\n")
+    if SPLIT_RESPONSE_NEWLINES:
+        lines = response.split("\n")
 
-    for c, line in enumerate(lines):
-        await update.message.reply_text(line)
+        for c, line in enumerate(lines):
+            if not line:
+                continue
 
-        if c < len(lines) - 1:
-            await context.bot.send_chat_action(
-                chat_id=chat_id, action=ChatAction.TYPING
-            )
-            sleep(uniform(0.2, 1))
+            await update.message.reply_text(line)
+
+            if c < len(lines) - 1:
+                await context.bot.send_chat_action(
+                    chat_id=chat_id, action=ChatAction.TYPING
+                )
+                sleep(uniform(0.2, 1))
+    else:
+        await update.message.reply_text(response)
 
     logger.debug(
         f"Answered message for user {user_data[chat_id]} (chat_id: {chat_id}): {response}"
