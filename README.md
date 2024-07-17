@@ -49,6 +49,7 @@ Before you unleash this beast, you might want to customize its behavior. Set the
 - `HISTORY_LENGTH`: How many conversations until AI amnesia kicks in (default: 10)
 - `DEBUG`: Want to see the chaos under the hood? (default: false)
 - `DEVICE`: CUDA or CPU? Choose your weapon.
+- `ENABLE_SKELETON_KEY_JAILBREAK`: For when you want to use the key to jailbreak your digital brain(for unpatched models only)
 
 For Telegram support, you'll need these additional environment variables:
 

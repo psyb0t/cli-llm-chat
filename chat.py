@@ -10,19 +10,20 @@ from transformers import (
 )
 from peft import PeftModel
 from threading import Thread
-from common import CHAT_TEMPLATES
+from common import CHAT_TEMPLATES, SKELETON_KEY_JAILBREAK_PROMPT
 
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
 # Constants for default values
 DEFAULT_MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.3"
 DEFAULT_ASSISTANT_NAME = "AI"
-DEFAULT_TEMPERATURE = 0.7
-DEFAULT_MAX_NEW_TOKENS = 256
-DEFAULT_TOP_P = 0.95
-DEFAULT_TOP_K = 40
-DEFAULT_REPETITION_PENALTY = 1.1
-DEFAULT_HISTORY_LENGTH = 10
+DEFAULT_TEMPERATURE = "0.7"
+DEFAULT_MAX_NEW_TOKENS = "256"
+DEFAULT_TOP_P = "0.95"
+DEFAULT_TOP_K = "40"
+DEFAULT_REPETITION_PENALTY = "1.1"
+DEFAULT_HISTORY_LENGTH = "10"
+DEFAULT_ENABLE_SKELETON_KEY_JAILBREAK = "false"
 
 # Constants for environment variable names
 ENV_VAR_MODEL_NAME = "MODEL_NAME"
@@ -42,6 +43,7 @@ ENV_VAR_MODEL_LOAD_IN_8BIT = "MODEL_LOAD_IN_8BIT"
 ENV_VAR_TOKENIZER_NAME = "TOKENIZER_NAME"
 ENV_VAR_LORA_WEIGHTS = "LORA_WEIGHTS"
 ENV_VAR_HF_TOKEN = "HF_TOKEN"
+ENV_VAR_ENABLE_SKELETON_KEY_JAILBREAK = "ENABLE_SKELETON_KEY_JAILBREAK"
 
 
 class Chatbot:
@@ -98,6 +100,17 @@ class Chatbot:
         )
 
         self.lora_weights: str = os.getenv(ENV_VAR_LORA_WEIGHTS, "")
+
+        self.enable_skeleton_key_jailbreak: bool = (
+            os.getenv(
+                ENV_VAR_ENABLE_SKELETON_KEY_JAILBREAK,
+                DEFAULT_ENABLE_SKELETON_KEY_JAILBREAK,
+            ).lower()
+            == "true"
+        )
+
+        if self.enable_skeleton_key_jailbreak:
+            print("WARNING! SKELETON KEY JAILBREAK ENABLED!")
 
         if self.debug:
             self.print_debug_info()
@@ -184,6 +197,7 @@ class Chatbot:
         print("Load in 4-bit:", self.load_in_4bit)
         print("Load in 8-bit:", self.load_in_8bit)
         print("Lora Weights:", self.lora_weights)
+        print("Enable Skeleton Key Jailbreak:", self.enable_skeleton_key_jailbreak)
         print("--- End Chat Debug Information ---\n")
 
     def print_prompt_debug_info(
@@ -210,6 +224,10 @@ class Chatbot:
     ) -> str:
         if user_id not in self.history.keys():
             self.history[user_id] = []
+
+        if self.enable_skeleton_key_jailbreak:
+            print(f"Applying skeleton key jailbreak...")
+            user_input = SKELETON_KEY_JAILBREAK_PROMPT + user_input
 
         self.history[user_id].append({"role": "user", "content": user_input})
         self.history[user_id] = self.history[user_id][
