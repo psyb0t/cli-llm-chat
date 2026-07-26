@@ -2,3 +2,5 @@ __pycache__
 venv
 run.sh
 run_telegram_chatbot.sh
+git-update.sh
+CLAUDE.md
