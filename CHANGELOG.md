@@ -4,6 +4,10 @@ All notable changes per release. Versions follow [semver](https://semver.org)
 pre-1.0 conventions: minor bumps may include breaking changes (called out
 explicitly), patch bumps are docs / build / fixes only.
 
+## v0.1.2 — 2026-07-27
+
+- Added a GitHub Actions CI status badge to the README.
+
 ## v0.1.1 — 2026-07-27
 
 - Added self-hosted version and license badges; added a pipeline.yml running the badges job.

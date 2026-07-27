@@ -1,5 +1,6 @@
 # 🖕 CLI-LLM-CHAT: Because F\*ck Your GUI! 🖕
 
+[![CI](https://github.com/psyb0t/cli-llm-chat/actions/workflows/pipeline.yml/badge.svg?branch=master)](https://github.com/psyb0t/cli-llm-chat/actions/workflows/pipeline.yml)
 [![version](https://raw.githubusercontent.com/psyb0t/cli-llm-chat/badges/version.svg)](https://github.com/psyb0t/cli-llm-chat/releases)
 [![license](https://raw.githubusercontent.com/psyb0t/cli-llm-chat/badges/license.svg)](LICENSE)
 
