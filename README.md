@@ -1,5 +1,8 @@
 # 🖕 CLI-LLM-CHAT: Because F\*ck Your GUI! 🖕
 
+[![version](https://raw.githubusercontent.com/psyb0t/cli-llm-chat/badges/version.svg)](https://github.com/psyb0t/cli-llm-chat/releases)
+[![license](https://raw.githubusercontent.com/psyb0t/cli-llm-chat/badges/license.svg)](LICENSE)
+
 Welcome to the digital thunderdome, you keyboard-smashing lunatics! This ain't your grandma's chatbot – it's a CLI-powered, LLM-fueled beast! And guess what? It also supports Telegram integration right out of the box. Get ready to unleash the madness!
 
 ## 🚀 Features (or Whatever the Hell You Wanna Call 'Em)
