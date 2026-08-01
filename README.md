@@ -41,7 +41,7 @@ Before you unleash this beast, you might want to customize its behavior. Set the
 - `MODEL_LOAD_IN_4BIT`: For when you want to squeeze that model into a toaster (default: false)
 - `MODEL_LOAD_IN_8BIT`: When 4 bits just isn't enough (default: false)
 - `TOKENIZER_NAME`: In case you want a different tokenizer (defaults to MODEL_NAME if not set)
-- `CHAT_TEMPLATE`: For the love of all that's holy, choose wisely. (optional)
+- `CHAT_TEMPLATE`: One of `chatml`, `mistral`, `vicuna`. For the love of all that's holy, choose wisely. Optional when the tokenizer ships its own template, required when it doesn't — startup will tell you which case you're in.
 - `LORA_WEIGHTS`: Spice it up with some LoRA, if you're feeling fancy
 - `ASSISTANT_NAME`: Name your digital Frankenstein (default: "AI")
 - `SYSTEM_MESSAGE`: Set the AI's mood. Make it think it's a pirate, a poet, or a paranoid android.

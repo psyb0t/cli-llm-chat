@@ -48,7 +48,10 @@ ENV_VAR_ENABLE_SKELETON_KEY_JAILBREAK = "ENABLE_SKELETON_KEY_JAILBREAK"
 
 class Chatbot:
     def __init__(self) -> None:
-        self.huggingface_token: str = os.getenv(ENV_VAR_HF_TOKEN, "")
+        # Must be None, not "", when unset: huggingface_hub now sends the token
+        # verbatim, and an empty one becomes an illegal `Authorization: Bearer `
+        # header that the HTTP client rejects before the request leaves.
+        self.huggingface_token: Optional[str] = os.getenv(ENV_VAR_HF_TOKEN) or None
 
         model_name: str = os.getenv(ENV_VAR_MODEL_NAME, "")
         self.model_name: str = model_name if model_name else DEFAULT_MODEL_NAME
@@ -144,12 +147,16 @@ class Chatbot:
             print(f"Setting chat template to: {self.chat_template}")
             self.tokenizer.chat_template = CHAT_TEMPLATES[self.chat_template]
 
+        # transformers removed `tokenizer.default_chat_template` in 4.44 -- there
+        # is no per-tokenizer-class fallback any more, and reading the attribute
+        # now raises AttributeError. If the tokenizer repo ships no template the
+        # only way forward is an explicit one.
         if not self.tokenizer.chat_template:
-            if self.tokenizer.default_chat_template:
-                print(
-                    f"Setting chat template to default one: {self.tokenizer.default_chat_template}"
-                )
-                self.tokenizer.chat_template = self.tokenizer.default_chat_template
+            raise ValueError(
+                f"tokenizer {self.tokenizer_name} ships no chat template; "
+                f"set {ENV_VAR_CHAT_TEMPLATE} to one of: "
+                f"{', '.join(sorted(CHAT_TEMPLATES))}"
+            )
 
         if self.lora_weights:
             print(f"Loading LoRA weights from: {self.lora_weights}")
